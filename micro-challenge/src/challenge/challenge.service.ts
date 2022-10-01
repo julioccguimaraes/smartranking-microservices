@@ -5,14 +5,19 @@ import { RpcException } from '@nestjs/microservices';
 import { Challenge } from './interfaces/challenge.interface';
 import { ChallengeStatus } from './challenge-status.enum';
 import * as momentTimezone from 'moment-timezone';
+import { ClientProxySmartRanking } from 'src/proxyrmq/client-proxy';
 
 @Injectable()
 export class ChallengeService {
   constructor(
     @InjectModel('Challenge') private readonly challengeModel: Model<Challenge>,
+    private readonly clientProxySmartRanking: ClientProxySmartRanking,
   ) {}
 
   private readonly logger = new Logger(ChallengeService.name);
+
+  private clientNotification =
+    this.clientProxySmartRanking.getClientProxyNotificationInstance();
 
   async addChallenge(challenge: Challenge): Promise<Challenge> {
     try {
@@ -26,7 +31,11 @@ export class ChallengeService {
 
       this.logger.log(`addedChallenge: ${JSON.stringify(addedChallenge)}`);
 
-      return await addedChallenge.save();
+      await addedChallenge.save();
+
+      return await this.clientNotification
+        .emit('notification-new-challenge', challenge)
+        .toPromise();
     } catch (error) {
       this.logger.error(`error: ${JSON.stringify(error.message)}`);
       throw new RpcException(error.message);
