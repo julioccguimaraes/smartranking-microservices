@@ -9,16 +9,16 @@ import { ChallengeModule } from './challenge/challenge.module';
 import { RankingModule } from './ranking/ranking.module';
 
 @Module({
-  imports: [
-    CategoryModule,
-    PlayerModule,
-    ChallengeModule,
-    ProxyRMQModule,
-    ConfigModule.forRoot({ isGlobal: true }),
-    AwsModule,
-    RankingModule,
-  ],
-  controllers: [],
-  providers: [ClientProxySmartRanking],
+	imports: [
+		CategoryModule,
+		PlayerModule,
+		ChallengeModule,
+		ProxyRMQModule,
+		ConfigModule.forRoot({ isGlobal: true }),
+		AwsModule,
+		RankingModule,
+	],
+	controllers: [],
+	providers: [ClientProxySmartRanking],
 })
 export class AppModule {}

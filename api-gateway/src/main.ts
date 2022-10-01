@@ -5,13 +5,16 @@ import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+	const app = await NestFactory.create(AppModule);
 
-  app.useGlobalInterceptors(new LoggingInterceptor(), new TimeoutInterceptor());
+	app.useGlobalInterceptors(
+		new LoggingInterceptor(),
+		new TimeoutInterceptor()
+	);
 
-  // tratamento global de exceções
-  app.useGlobalFilters(new AllExceptionsFilter());
+	// tratamento global de exceções
+	app.useGlobalFilters(new AllExceptionsFilter());
 
-  await app.listen(3000);
+	await app.listen(3000);
 }
 bootstrap();

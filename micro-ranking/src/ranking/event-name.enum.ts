@@ -1,4 +1,4 @@
 export enum EventName {
-  VICTORY = 'VITORIA',
-  DEFEAT = 'DERROTA',
+	VICTORY = 'VITORIA',
+	DEFEAT = 'DERROTA',
 }

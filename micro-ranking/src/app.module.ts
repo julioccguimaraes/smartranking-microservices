@@ -7,16 +7,16 @@ import { RankingModule } from './ranking/ranking.module';
 const configService = new ConfigService();
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot(configService.get('MONGODB_URL'), {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }),
-    RankingModule,
-    ProxyRMQModule,
-  ],
-  controllers: [],
-  providers: [],
+	imports: [
+		ConfigModule.forRoot({ isGlobal: true }),
+		MongooseModule.forRoot(configService.get('MONGODB_URL'), {
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+		}),
+		RankingModule,
+		ProxyRMQModule,
+	],
+	controllers: [],
+	providers: [],
 })
 export class AppModule {}

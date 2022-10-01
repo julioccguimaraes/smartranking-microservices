@@ -1,18 +1,18 @@
 import {
-  Controller,
-  Logger,
-  Post,
-  UsePipes,
-  ValidationPipe,
-  Body,
-  Put,
-  Param,
-  BadRequestException,
-  Delete,
-  Get,
-  Query,
-  UseInterceptors,
-  UploadedFile,
+	Controller,
+	Logger,
+	Post,
+	UsePipes,
+	ValidationPipe,
+	Body,
+	Put,
+	Param,
+	BadRequestException,
+	Delete,
+	Get,
+	Query,
+	UseInterceptors,
+	UploadedFile,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Observable } from 'rxjs';
@@ -25,84 +25,84 @@ import { UpdatePlayerDto } from './dto/update-player-dto';
 
 @Controller('api/v1/player')
 export class PlayerController {
-  private logger = new Logger(PlayerController.name);
+	private logger = new Logger(PlayerController.name);
 
-  constructor(
-    private clientProxySmartRanking: ClientProxySmartRanking,
-    private awsService: AwsService,
-  ) {}
+	constructor(
+		private clientProxySmartRanking: ClientProxySmartRanking,
+		private awsService: AwsService
+	) {}
 
-  private clientAdminBackend =
-    this.clientProxySmartRanking.getClientProxyAdminBackendInstance();
+	private clientAdminBackend =
+		this.clientProxySmartRanking.getClientProxyAdminBackendInstance();
 
-  @Post()
-  @UsePipes(ValidationPipe)
-  async addPlayer(@Body() addPlayerDto: AddPlayerDto) {
-    this.logger.log(`addPlayerDto: ${JSON.stringify(addPlayerDto)}`);
+	@Post()
+	@UsePipes(ValidationPipe)
+	async addPlayer(@Body() addPlayerDto: AddPlayerDto) {
+		this.logger.log(`addPlayerDto: ${JSON.stringify(addPlayerDto)}`);
 
-    const category: Category = await this.clientAdminBackend
-      .send('get-categories', addPlayerDto.category)
-      .toPromise();
+		const category: Category = await this.clientAdminBackend
+			.send('get-categories', addPlayerDto.category)
+			.toPromise();
 
-    if (category) {
-      this.clientAdminBackend.emit('add-player', addPlayerDto);
-    } else {
-      throw new BadRequestException(`Categoria não cadastrada!`);
-    }
-  }
+		if (category) {
+			this.clientAdminBackend.emit('add-player', addPlayerDto);
+		} else {
+			throw new BadRequestException(`Categoria não cadastrada!`);
+		}
+	}
 
-  @Get()
-  getPlayers(@Query('idPlayer') _id: string): Observable<any> {
-    return this.clientAdminBackend.send('get-players', _id ? _id : '');
-  }
+	@Get()
+	getPlayers(@Query('idPlayer') _id: string): Observable<any> {
+		return this.clientAdminBackend.send('get-players', _id ? _id : '');
+	}
 
-  @Put('/:_id')
-  @UsePipes(ValidationPipe)
-  async updatePlayer(
-    @Body() updatePlayerDto: UpdatePlayerDto,
-    @Param('_id', ValidationParamPipe) _id: string,
-  ) {
-    const category: Category = await this.clientAdminBackend
-      .send('get-categories', updatePlayerDto.category)
-      .toPromise();
+	@Put('/:_id')
+	@UsePipes(ValidationPipe)
+	async updatePlayer(
+		@Body() updatePlayerDto: UpdatePlayerDto,
+		@Param('_id', ValidationParamPipe) _id: string
+	) {
+		const category: Category = await this.clientAdminBackend
+			.send('get-categories', updatePlayerDto.category)
+			.toPromise();
 
-    if (category) {
-      this.clientAdminBackend.emit('update-player', {
-        id: _id,
-        player: updatePlayerDto,
-      });
-    } else {
-      throw new BadRequestException(`Categoria não cadastrada!`);
-    }
-  }
+		if (category) {
+			this.clientAdminBackend.emit('update-player', {
+				id: _id,
+				player: updatePlayerDto,
+			});
+		} else {
+			throw new BadRequestException(`Categoria não cadastrada!`);
+		}
+	}
 
-  @Delete('/:_id')
-  async deletePlayer(@Param('_id', ValidationParamPipe) _id: string) {
-    this.clientAdminBackend.emit('delete-player', { _id });
-  }
+	@Delete('/:_id')
+	async deletePlayer(@Param('_id', ValidationParamPipe) _id: string) {
+		this.clientAdminBackend.emit('delete-player', { _id });
+	}
 
-  @Post('/:_id/upload')
-  @UseInterceptors(FileInterceptor('file'))
-  async fileUpload(@UploadedFile() file, @Param('_id') _id: string) {
-    const player = await this.clientAdminBackend
-      .send('get-players', _id)
-      .toPromise();
+	@Post('/:_id/upload')
+	@UseInterceptors(FileInterceptor('file'))
+	async fileUpload(@UploadedFile() file, @Param('_id') _id: string) {
+		const player = await this.clientAdminBackend
+			.send('get-players', _id)
+			.toPromise();
 
-    if (!player) {
-      throw new BadRequestException('Jogador não encontrado.');
-    }
+		if (!player) {
+			throw new BadRequestException('Jogador não encontrado.');
+		}
 
-    const photoUrl = await this.awsService.fileUpload(file, _id);
+		const photoUrl = await this.awsService.fileUpload(file, _id);
 
-    const updatePlayerDto: UpdatePlayerDto = {};
+		const updatePlayerDto: UpdatePlayerDto = {};
 
-    updatePlayerDto.photoUrl = photoUrl.url;
+		updatePlayerDto.photoUrl = photoUrl.url;
 
-    this.clientAdminBackend.emit('update-player', {
-      id: _id,
-      player: updatePlayerDto,
-    });
+		this.clientAdminBackend.emit('update-player', {
+			id: _id,
+			player: updatePlayerDto,
+		});
 
-    return this.clientAdminBackend.send('get-players', _id);
-  }
+		return this.clientAdminBackend.send('get-players', _id);
+	}
 }

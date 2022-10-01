@@ -6,11 +6,11 @@ import { RankingSchema } from './interfaces/ranking.schema';
 import { ProxyRMQModule } from 'src/proxyrmq/proxyrmq.module';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([{ name: 'Ranking', schema: RankingSchema }]),
-    ProxyRMQModule,
-  ],
-  providers: [RankingService],
-  controllers: [RankingController],
+	imports: [
+		MongooseModule.forFeature([{ name: 'Ranking', schema: RankingSchema }]),
+		ProxyRMQModule,
+	],
+	providers: [RankingService],
+	controllers: [RankingController],
 })
 export class RankingModule {}

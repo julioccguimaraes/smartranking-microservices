@@ -1,11 +1,11 @@
 export interface RankingResponse {
-  player?: string;
-  position?: number;
-  points?: number;
-  matchHistory?: History;
+	player?: string;
+	position?: number;
+	points?: number;
+	matchHistory?: History;
 }
 
 export interface History {
-  victories?: number;
-  defeats?: number;
+	victories?: number;
+	defeats?: number;
 }

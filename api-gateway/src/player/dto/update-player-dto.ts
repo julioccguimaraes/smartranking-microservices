@@ -1,9 +1,9 @@
 import { IsOptional } from 'class-validator';
 
 export class UpdatePlayerDto {
-  @IsOptional()
-  category?: string;
+	@IsOptional()
+	category?: string;
 
-  @IsOptional()
-  photoUrl?: string;
+	@IsOptional()
+	photoUrl?: string;
 }

@@ -7,30 +7,30 @@ const ackErrors: string[] = ['E11000'];
 
 @Controller('match')
 export class MatchController {
-  constructor(private readonly matchService: MatchService) {}
+	constructor(private readonly matchService: MatchService) {}
 
-  private readonly logger = new Logger(MatchController.name);
+	private readonly logger = new Logger(MatchController.name);
 
-  @EventPattern('add-match')
-  async addMatch(@Payload() match: Match, @Ctx() context: RmqContext) {
-    const channel = context.getChannelRef();
-    const originalMsg = context.getMessage();
+	@EventPattern('add-match')
+	async addMatch(@Payload() match: Match, @Ctx() context: RmqContext) {
+		const channel = context.getChannelRef();
+		const originalMsg = context.getMessage();
 
-    try {
-      this.logger.log(`match: ${JSON.stringify(match)}`);
+		try {
+			this.logger.log(`match: ${JSON.stringify(match)}`);
 
-      await this.matchService.addMatch(match);
-      await channel.ack(originalMsg);
-    } catch (error) {
-      this.logger.log(`error: ${JSON.stringify(error.message)}`);
+			await this.matchService.addMatch(match);
+			await channel.ack(originalMsg);
+		} catch (error) {
+			this.logger.log(`error: ${JSON.stringify(error.message)}`);
 
-      const filterAckError = ackErrors.filter((ackError) =>
-        error.message.includes(ackError),
-      );
+			const filterAckError = ackErrors.filter((ackError) =>
+				error.message.includes(ackError)
+			);
 
-      if (filterAckError.length > 0) {
-        await channel.ack(originalMsg);
-      }
-    }
-  }
+			if (filterAckError.length > 0) {
+				await channel.ack(originalMsg);
+			}
+		}
+	}
 }

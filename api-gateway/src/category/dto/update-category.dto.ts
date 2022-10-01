@@ -1,17 +1,17 @@
 import { ArrayMinSize, IsArray, IsOptional, IsString } from 'class-validator';
 
 export class UpdateCategoryDto {
-  @IsString()
-  @IsOptional()
-  description: string;
+	@IsString()
+	@IsOptional()
+	description: string;
 
-  @IsArray()
-  @ArrayMinSize(1)
-  events: Array<Event>;
+	@IsArray()
+	@ArrayMinSize(1)
+	events: Array<Event>;
 }
 
 interface Event {
-  name: string;
-  operation: string;
-  value: number;
+	name: string;
+	operation: string;
+	value: number;
 }

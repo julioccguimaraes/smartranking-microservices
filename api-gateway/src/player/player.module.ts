@@ -4,7 +4,7 @@ import { ProxyRMQModule } from 'src/proxyrmq/proxyrmq.module';
 import { PlayerController } from './player.controller';
 
 @Module({
-  imports: [ProxyRMQModule, AwsModule],
-  controllers: [PlayerController],
+	imports: [ProxyRMQModule, AwsModule],
+	controllers: [PlayerController],
 })
 export class PlayerModule {}

@@ -9,17 +9,17 @@ import { ProxyRMQModule } from './proxyrmq/proxyrmq.module';
 const configService = new ConfigService();
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot(configService.get('MONGODB_URL'), {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }),
-    ChallengeModule,
-    MatchModule,
-    ProxyRMQModule,
-  ],
-  controllers: [],
-  providers: [ClientProxySmartRanking],
+	imports: [
+		ConfigModule.forRoot({ isGlobal: true }),
+		MongooseModule.forRoot(configService.get('MONGODB_URL'), {
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+		}),
+		ChallengeModule,
+		MatchModule,
+		ProxyRMQModule,
+	],
+	controllers: [],
+	providers: [ClientProxySmartRanking],
 })
 export class AppModule {}
