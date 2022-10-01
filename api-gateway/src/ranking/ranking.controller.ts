@@ -2,7 +2,7 @@ import { BadRequestException, Controller, Get, Query } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { ClientProxySmartRanking } from 'src/proxyrmq/client-proxy';
 
-@Controller('ranking')
+@Controller('api/v1/ranking')
 export class RankingController {
     constructor(
         private clientProxySmartRanking: ClientProxySmartRanking
