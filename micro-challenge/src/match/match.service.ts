@@ -24,17 +24,17 @@ export class MatchService {
 	async addMatch(match: Match): Promise<Match> {
 		try {
 			/*
-                Iremos persistir a match e logo em seguida atualizaremos o
-                challenge. O challenge irá receber o ID da match e seu status
-                será modificado para REALIZADO.
-            */
+			 *    Iremos persistir a match e logo em seguida atualizaremos o
+			 *   challenge. O challenge irá receber o ID da match e seu status
+			 *    será modificado para REALIZADO.
+			 */
 			const addedMatch = new this.matchModel(match);
 
 			this.logger.log(`addedMatch: ${JSON.stringify(addedMatch)}`);
 
 			/*
-                Recuperamos o ID da match
-            */
+			 *   Recuperamos o ID da match
+			 */
 			const result = await addedMatch.save();
 
 			this.logger.log(`result: ${JSON.stringify(result)}`);
@@ -42,17 +42,17 @@ export class MatchService {
 			const idMatch = result._id;
 
 			/*
-                Com o ID do challenge que recebemos na requisição, recuperamos o 
-                challenge.
-            */
+			 *   Com o ID do challenge que recebemos na requisição, recuperamos o
+			 *   challenge.
+			 */
 			const challenge: Challenge = await this.clientChallenge
 				.send('get-challenges', { idPlayer: '', _id: match.challenge })
 				.toPromise();
 
 			/*
-                Acionamos o tópico 'atualizar-challenge-match' que será
-                responsável por atualizar o challenge.
-            */
+			 *   Acionamos o tópico 'atualizar-challenge-match' que será
+			 *   responsável por atualizar o challenge.
+			 */
 			await this.clientChallenge
 				.emit('update-match-challenge', {
 					idMatch: idMatch,
@@ -61,9 +61,9 @@ export class MatchService {
 				.toPromise();
 
 			/*
-                Enviamos a match para o microservice rankings,
-                indicando a necessidade de processamento desta match
-            */
+			 *    Enviamos a match para o microservice rankings,
+			 *   indicando a necessidade de processamento desta match
+			 */
 			return await this.clientRanking
 				.emit('process-match', { idMatch: idMatch, match: match })
 				.toPromise();

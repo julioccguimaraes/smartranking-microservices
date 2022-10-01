@@ -92,9 +92,9 @@ export class RankingService {
 			}
 
 			/*
-                Recuperou os registros de matchs processadas, filtrando a category recebida
-                na requisição.
-            */
+			 *   Recuperou os registros de matchs processadas, filtrando a category recebida
+			 *  na requisição.
+			 */
 			const rankingRegisters = await this.rankingModel
 				.find()
 				.where('category')
@@ -102,11 +102,11 @@ export class RankingService {
 				.exec();
 
 			/*
-                Agora vamos recuperar todos os challenges com data menor
-                ou igual à data que recebemos na requisição.
-                Somente iremos recuperar challenges que estiverem com o status igual 
-                a 'REALIZADO' e filtrando a category.
-            */
+			 *    Agora vamos recuperar todos os challenges com data menor
+			 *   ou igual à data que recebemos na requisição.
+			 *   Somente iremos recuperar challenges que estiverem com o status igual
+			 *   a 'REALIZADO' e filtrando a category.
+			 */
 
 			const challenges: Challenge[] = await this.clientChallenge
 				.send('get-challenges-completed', {
@@ -116,10 +116,10 @@ export class RankingService {
 				.toPromise();
 
 			/*
-                Realizaremos um loop nos registros que recuperamos do ranking (matchs processadas)
-                e descartaremos os registros (com base no id do challenge) que não retornaram no
-                objeto challenges
-            */
+			 *   Realizaremos um loop nos registros que recuperamos do ranking (matchs processadas)
+			 *   e descartaremos os registros (com base no id do challenge) que não retornaram no
+			 *   objeto challenges
+			 */
 
 			_.remove(rankingRegisters, function (item) {
 				return (

@@ -3,7 +3,7 @@ import { ClientProxySmartRanking } from './proxyrmq/client-proxy';
 import { MailerService } from '@nestjs-modules/mailer';
 import { Challenge } from './interfaces/challenge.interface';
 import { Player } from './interfaces/player.interface';
-import HTML_NOTIFICACAO_ADVERSARIO from './static/html-opponent-notification';
+import HTML_OPPONENT_NOTIFICATION from './static/html-opponent-notification';
 import { RpcException } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
 
@@ -24,8 +24,8 @@ export class AppService {
 	async sendEmailToOpponent(challenge: Challenge): Promise<void> {
 		try {
 			/*
-        Identificar o ID do opponent
-      */
+			 * Identificar o ID do opponent
+			 */
 
 			let idChallenger = '';
 
@@ -47,7 +47,7 @@ export class AppService {
 
 			let markup = '';
 
-			markup = HTML_NOTIFICACAO_ADVERSARIO;
+			markup = HTML_OPPONENT_NOTIFICATION;
 			markup = markup.replace(/#NOME_ADVERSARIO/g, opponent.name);
 			markup = markup.replace(/#NOME_SOLICITANTE/g, requester.name);
 

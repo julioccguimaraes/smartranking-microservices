@@ -1,4 +1,4 @@
-const HTML_NOTIFICACAO_ADVERSARIO = `
+const HTML_OPPONENT_NOTIFICATION = `
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet" />
 <body style="margin: 0; font-family: 'Roboto', sans-serif;">
     <div style="background: #f5f5f5; padding: 8vw; margin: 0;">
@@ -19,4 +19,4 @@ const HTML_NOTIFICACAO_ADVERSARIO = `
     </div>
 </body>
 `;
-export default HTML_NOTIFICACAO_ADVERSARIO;
+export default HTML_OPPONENT_NOTIFICATION;

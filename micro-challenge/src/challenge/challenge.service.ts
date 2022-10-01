@@ -25,9 +25,9 @@ export class ChallengeService {
 			const addedChallenge = new this.challengeModel(challenge);
 			addedChallenge.dateHourRequest = new Date();
 			/*
-                Quando um challenge for criado, definimos o status 
-                challenge como pendente
-            */
+			 *    Quando um challenge for criado, definimos o status
+			 *   challenge como pendente
+			 */
 			addedChallenge.status = ChallengeStatus.PENDENTE;
 
 			this.logger.log(
@@ -81,9 +81,9 @@ export class ChallengeService {
 	async updateChallenge(_id: string, challenge: Challenge): Promise<void> {
 		try {
 			/*
-                Atualizaremos a data da resposta quando o status do challenge 
-                vier preenchido 
-            */
+			 *    Atualizaremos a data da resposta quando o status do challenge
+			 *    vier preenchido
+			 */
 			challenge.dateHourResponse = new Date();
 
 			await this.challengeModel
@@ -102,9 +102,9 @@ export class ChallengeService {
 	): Promise<void> {
 		try {
 			/*
-                Quando uma partida for registrada por um usuário, mudaremos o 
-                status do challenge para realizado
-            */
+			 *    Quando uma partida for registrada por um usuário, mudaremos o
+			 *   status do challenge para realizado
+			 */
 			challenge.status = ChallengeStatus.REALIZADO;
 			challenge.match = idMatch;
 
@@ -122,9 +122,9 @@ export class ChallengeService {
 		try {
 			const { _id } = challenge;
 			/*
-                Realizaremos a deleção lógica do challenge, modificando seu status para
-                CANCELADO
-            */
+			 *    Realizaremos a deleção lógica do challenge, modificando seu status para
+			 *   CANCELADO
+			 */
 			challenge.status = ChallengeStatus.CANCELADO;
 
 			this.logger.log(`challenge: ${JSON.stringify(challenge)}`);
