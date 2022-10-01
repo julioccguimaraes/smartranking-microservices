@@ -34,11 +34,11 @@ export class ChallengeService {
 				`addedChallenge: ${JSON.stringify(addedChallenge)}`
 			);
 
-			await addedChallenge.save();
+			return await addedChallenge.save();
 
-			return await this.clientNotification
-				.emit('notification-new-challenge', challenge)
-				.toPromise();
+			//return await this.clientNotification
+			//	.emit('notification-new-challenge', challenge)
+			//	.toPromise();
 		} catch (error) {
 			this.logger.error(`error: ${JSON.stringify(error.message)}`);
 			throw new RpcException(error.message);
