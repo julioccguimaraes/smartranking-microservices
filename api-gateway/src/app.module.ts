@@ -16,9 +16,9 @@ import { RankingModule } from './ranking/ranking.module';
     ProxyRMQModule,
     ConfigModule.forRoot({ isGlobal: true }),
     AwsModule,
-    RankingModule
+    RankingModule,
   ],
   controllers: [],
   providers: [ClientProxySmartRanking],
 })
-export class AppModule { }
+export class AppModule {}

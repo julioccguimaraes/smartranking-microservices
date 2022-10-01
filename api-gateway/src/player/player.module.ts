@@ -5,6 +5,6 @@ import { PlayerController } from './player.controller';
 
 @Module({
   imports: [ProxyRMQModule, AwsModule],
-  controllers: [PlayerController]
+  controllers: [PlayerController],
 })
 export class PlayerModule {}

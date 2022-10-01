@@ -3,9 +3,9 @@ import { Player } from 'src/player/interfaces/player.interface';
 import { Result } from '../interfaces/match.interface';
 
 export class ChallengeToMatchDto {
-    @IsNotEmpty()
-    challenger: Player
+  @IsNotEmpty()
+  challenger: Player;
 
-    @IsNotEmpty()
-    result: Array<Result>
+  @IsNotEmpty()
+  result: Array<Result>;
 }

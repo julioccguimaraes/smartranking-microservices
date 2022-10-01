@@ -4,14 +4,17 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { CategoryModule } from './category/category.module';
 import { PlayerModule } from './player/player.module';
 
-const configService = new ConfigService()
+const configService = new ConfigService();
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot(configService.get('MONGODB_URL'), { useNewUrlParser: true, useUnifiedTopology: true }),
+    MongooseModule.forRoot(configService.get('MONGODB_URL'), {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }),
     CategoryModule,
-    PlayerModule
+    PlayerModule,
   ],
   controllers: [],
   providers: [],

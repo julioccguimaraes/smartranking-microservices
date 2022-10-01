@@ -7,10 +7,10 @@ import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.useGlobalInterceptors(new LoggingInterceptor(), new TimeoutInterceptor())
+  app.useGlobalInterceptors(new LoggingInterceptor(), new TimeoutInterceptor());
 
   // tratamento global de exceções
-  app.useGlobalFilters(new AllExceptionsFilter())
+  app.useGlobalFilters(new AllExceptionsFilter());
 
   await app.listen(3000);
 }

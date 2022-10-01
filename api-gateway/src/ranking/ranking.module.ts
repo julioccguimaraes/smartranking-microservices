@@ -4,6 +4,6 @@ import { RankingController } from './ranking.controller';
 
 @Module({
   imports: [ProxyRMQModule],
-  controllers: [RankingController]
+  controllers: [RankingController],
 })
 export class RankingModule {}

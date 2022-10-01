@@ -1,14 +1,12 @@
-import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';
 import { AppModule } from './app.module';
-import * as momentTimezone from 'moment-timezone'
+import * as momentTimezone from 'moment-timezone';
 import { ConfigService } from '@nestjs/config';
 
-const configService = new ConfigService()
+const configService = new ConfigService();
 
 async function bootstrap() {
-
   //const app = await NestFactory.create(AppModule);
   const app = await NestFactory.createMicroservice(AppModule, {
     transport: Transport.RMQ,
@@ -22,8 +20,8 @@ async function bootstrap() {
         Só assim o rabbitmq vai retirar a mensagem da fila
       */
       noAck: false,
-      queue: 'admin-backend'
-    }
+      queue: 'admin-backend',
+    },
   });
 
   /*
@@ -31,12 +29,12 @@ async function bootstrap() {
     quando o objeto for serializado, ele utilizará o formato de data definido por nós.
     Todos os objetos Date serão afetados com esta implementação 
   */
- 
+
   Date.prototype.toJSON = function (): any {
     return momentTimezone(this)
       .tz('America/Sao_Paulo')
-      .format('YYYY-MM-DD HH:mm:ss.SSS')
-  }
+      .format('YYYY-MM-DD HH:mm:ss.SSS');
+  };
 
   //await app.listen(3000);
   await app.listen();

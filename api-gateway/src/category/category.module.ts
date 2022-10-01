@@ -4,6 +4,6 @@ import { CategoryController } from './category.controller';
 
 @Module({
   imports: [ProxyRMQModule],
-  controllers: [CategoryController]
+  controllers: [CategoryController],
 })
 export class CategoryModule {}

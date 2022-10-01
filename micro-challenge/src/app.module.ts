@@ -6,17 +6,20 @@ import { MatchModule } from './match/match.module';
 import { ClientProxySmartRanking } from './proxyrmq/client-proxy';
 import { ProxyRMQModule } from './proxyrmq/proxyrmq.module';
 
-const configService = new ConfigService()
+const configService = new ConfigService();
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot(configService.get('MONGODB_URL'), { useNewUrlParser: true, useUnifiedTopology: true }),
+    MongooseModule.forRoot(configService.get('MONGODB_URL'), {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }),
     ChallengeModule,
     MatchModule,
-    ProxyRMQModule
+    ProxyRMQModule,
   ],
   controllers: [],
-  providers: [ClientProxySmartRanking]
+  providers: [ClientProxySmartRanking],
 })
 export class AppModule {}

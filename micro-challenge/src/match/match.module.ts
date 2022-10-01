@@ -8,8 +8,9 @@ import { MatchService } from './match.service';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: 'Match', schema: MatchSchema }]),
-    ProxyRMQModule],
+    ProxyRMQModule,
+  ],
   controllers: [MatchController],
-  providers: [MatchService]
+  providers: [MatchService],
 })
-export class MatchModule { }
+export class MatchModule {}
