@@ -22,7 +22,7 @@ export class Ranking extends mongoose.Document {
     operation: string
 
     @Prop()
-    points: string
+    points: number
 }
 
 export const RankingSchema = SchemaFactory.createForClass(Ranking)

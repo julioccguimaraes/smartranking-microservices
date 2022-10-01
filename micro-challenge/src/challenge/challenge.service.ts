@@ -113,4 +113,40 @@ export class ChallengeService {
             throw new RpcException(error.message)
         }
     }
+
+    async getChallengesCompleted(idCategory: string): Promise<Challenge[]> {
+        try {
+            return await this.challengeModel.find()
+                .where('category')
+                .equals(idCategory)
+                .where('status')
+                .equals(ChallengeStatus.REALIZADO)
+                .exec()
+        } catch (error) {
+            this.logger.error(`error: ${JSON.stringify(error.message)}`)
+            
+            throw new RpcException(error.message)
+        }
+    }
+
+    async getChallengesCompletedByDate(idCategory: string, dataChallenger: string): Promise<Challenge[]> {
+        try {
+            const dataChallengerNew = new Date(`${dataChallenger} 23:59:59.999`)
+
+            const moment = require('moment-timezone');
+
+            return await this.challengeModel.find()
+                .where('category')
+                .equals(idCategory)
+                .where('status')
+                .equals(ChallengeStatus.REALIZADO)
+                .where('dateHourChallenge')
+                .lte(moment.utc(dataChallengerNew).tz('UTC').format('YYYY-MM-DD HH:mm:ss.SSS+00:00'))
+                .exec()
+        } catch (error) {
+            this.logger.error(`error: ${JSON.stringify(error.message)}`)
+            
+            throw new RpcException(error.message)
+        }
+    }
 }

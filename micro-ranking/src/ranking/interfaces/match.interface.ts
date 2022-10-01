@@ -1,6 +1,4 @@
-import { Document } from 'mongoose';
-
-export interface Match extends Document {
+export interface Match {
     category: string
     challenge: string
     players: string[]

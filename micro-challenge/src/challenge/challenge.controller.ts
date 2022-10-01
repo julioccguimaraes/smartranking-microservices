@@ -52,6 +52,25 @@ export class ChallengeController {
         }
     }
 
+    @MessagePattern('get-challenges-completed')
+    async getChallengesCompleted(@Payload() payload: any, @Ctx() context: RmqContext): Promise<Challenge[] | Challenge> {
+        const channel = context.getChannelRef()
+        const originalMsg = context.getMessage()
+
+        try {
+            const { idCategory, dataChallenger } = payload
+            this.logger.log(`data: ${JSON.stringify(payload)}`)
+
+            if (dataChallenger) {
+                return await this.challengeService.getChallengesCompletedByDate(idCategory, dataChallenger);
+            } else {
+                return await this.challengeService.getChallengesCompleted(idCategory);
+            }
+        } finally {
+            await channel.ack(originalMsg)
+        }
+    }
+
     @EventPattern('update-challenge')
     async updateChallenge(@Payload() data: any, @Ctx() context: RmqContext) {
         const channel = context.getChannelRef()
