@@ -9,38 +9,31 @@ import {
 	UsePipes,
 	ValidationPipe,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { ClientProxySmartRanking } from 'src/proxyrmq/client-proxy';
+import { CategoryService } from './category.service';
 import { AddCategoryDto } from './dto/add-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Controller('api/v1/category')
 export class CategoryController {
-	constructor(private clientProxySmartRanking: ClientProxySmartRanking) {}
-
-	private clientAdminBackend =
-		this.clientProxySmartRanking.getClientProxyAdminBackendInstance();
+	constructor(private categoryService: CategoryService) {}
 
 	@Post()
 	@UsePipes(ValidationPipe)
-	addCategory(@Body() addCategoryDto: AddCategoryDto) {
-		this.clientAdminBackend.emit('add-category', addCategoryDto);
+	async addCategory(@Body() addCategoryDto: AddCategoryDto) {
+		await this.categoryService.addCategory(addCategoryDto);
 	}
 
 	@Get()
-	getCategories(@Query('idCategory') _id: string): Observable<any> {
-		return this.clientAdminBackend.send('get-categories', _id ? _id : '');
+	async getCategories(@Query('idCategory') _id: string) {
+		return await this.categoryService.getCategories(_id);
 	}
 
 	@Put('/:_id')
 	@UsePipes(ValidationPipe)
-	updateCategory(
+	async updateCategory(
 		@Body() updateCategoryDto: UpdateCategoryDto,
 		@Param('_id') _id: string
 	) {
-		this.clientAdminBackend.emit('update-category', {
-			id: _id,
-			category: updateCategoryDto,
-		});
+		await this.categoryService.updateCategory(updateCategoryDto, _id);
 	}
 }
