@@ -7,6 +7,7 @@ import { ProxyRMQModule } from './proxyrmq/proxyrmq.module';
 import { AwsModule } from './aws/aws.module';
 import { ChallengeModule } from './challenge/challenge.module';
 import { RankingModule } from './ranking/ranking.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
 	imports: [
@@ -17,6 +18,7 @@ import { RankingModule } from './ranking/ranking.module';
 		ConfigModule.forRoot({ isGlobal: true }),
 		AwsModule,
 		RankingModule,
+		AuthModule,
 	],
 	controllers: [],
 	providers: [ClientProxySmartRanking],
