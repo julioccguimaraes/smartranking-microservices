@@ -13,6 +13,6 @@ export class AwsCognitoConfig {
 	);
 	public region: string =
 		this.configService.get<string>('AWS_COGNITO_REGION');
-	public authority: string =
-		this.configService.get<string>('AWS_COGNITO_URL');
+	public url: string =
+		this.configService.get<string>('AWS_COGNITO_URL') + this.userPoolId;
 }
