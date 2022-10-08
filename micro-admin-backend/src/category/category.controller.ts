@@ -44,7 +44,13 @@ export class CategoryController {
 			// se a mensagem de erro é E11000, então avisa ao rabbitmq que pode deletar, senão vai ficar enfileirando-a
 			if (filterAckError.length > 0) {
 				await channel.ack(originalMessage);
+
+				return; // para não executar o nack()
 			}
+
+			// mensagem precida ser reenviada se estiver na fila. Esse caso resolve quando o BD está indisponível e a mensagem fica na fila
+			// se o banco volta online, a mensagem continua na fila até que a aplicação seja reiniciada. Essa linha abaixo resolve o problema.
+			await channel.nack(originalMessage);
 		}
 	}
 
