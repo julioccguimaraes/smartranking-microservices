@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Category } from 'aws-sdk/clients/cloudformation';
-import { AwsService } from 'src/aws/aws.service';
+import { AwsS3Service } from 'src/aws/aws-s3.service';
 import { ClientProxySmartRanking } from 'src/proxyrmq/client-proxy';
 import { AddPlayerDto } from './dto/add-player.dto';
 import { UpdatePlayerDto } from './dto/update-player-dto';
@@ -9,7 +9,7 @@ import { UpdatePlayerDto } from './dto/update-player-dto';
 export class PlayerService {
 	constructor(
 		private clientProxySmartRanking: ClientProxySmartRanking,
-		private awsService: AwsService
+		private awsS3Service: AwsS3Service
 	) {}
 
 	private clientAdminBackend =
@@ -61,7 +61,10 @@ export class PlayerService {
 			throw new BadRequestException('Jogador não encontrado.');
 		}
 
-		const photoUrl = await this.awsService.fileUpload(file, _id);
+		const photoUrl: { url: string } = await this.awsS3Service.fileUpload(
+			file,
+			_id
+		);
 
 		const updatePlayerDto: UpdatePlayerDto = {};
 
