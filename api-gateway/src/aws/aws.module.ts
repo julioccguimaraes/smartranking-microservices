@@ -6,6 +6,6 @@ import { AwsS3Service } from './aws-s3.service';
 
 @Module({
 	providers: [AwsS3Service, AwsCognitoConfig, AwsCognitoService, AwsS3Config],
-	exports: [AwsS3Service, AwsCognitoConfig, AwsCognitoService],
+	exports: [AwsS3Service, AwsCognitoConfig, AwsCognitoService, AwsS3Config],
 })
 export class AwsModule {}

@@ -4,7 +4,7 @@ import { AwsS3Config } from './aws-s3.config';
 
 @Injectable()
 export class AwsS3Service {
-	constructor(private awsS3Config: AwsS3Config) { }
+	constructor(private awsS3Config: AwsS3Config) {}
 
 	private logger = new Logger(AwsS3Service.name);
 
@@ -13,7 +13,7 @@ export class AwsS3Service {
 			const s3 = new AWS.S3({
 				region: this.awsS3Config.region,
 				accessKeyId: this.awsS3Config.accessKeyId,
-				secretAccessKey: this.awsS3Config.secretAccessKey
+				secretAccessKey: this.awsS3Config.secretAccessKey,
 			});
 
 			const fileExtension = file.originalname.split('.')[1];
@@ -26,7 +26,7 @@ export class AwsS3Service {
 			};
 
 			await s3.putObject(params).promise();
-			
+
 			return { url: this.awsS3Config.url + urlKey };
 		} catch (error) {
 			this.logger.error(error.message);
